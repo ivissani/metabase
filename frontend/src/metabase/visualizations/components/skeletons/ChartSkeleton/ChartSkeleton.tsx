@@ -56,6 +56,8 @@ const skeletonComponent: (display?: CardDisplayType) => JSX.Element | null = (
       return <RowSkeleton />;
     case "scatter":
       return <ScatterSkeleton />;
+    case "boxplot":
+      return <ScatterSkeleton />;
     case "waterfall":
       return <WaterfallSkeleton />;
     default:

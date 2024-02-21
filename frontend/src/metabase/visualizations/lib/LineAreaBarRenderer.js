@@ -127,6 +127,32 @@ function getDimensionsAndGroupsForScatterChart(datas) {
   return { dimension, groups };
 }
 
+function getDimensionsAndGroupsForBoxplotChart(datas) {
+  const dataset = crossfilter(datas);
+  const dimension = dataset.dimension(row => row[0]);
+  const groups = datas.map(data => {
+    const dim = crossfilter(data).dimension(row => row[0]);
+    return [
+      dim.group().reduce(
+        function (p, v) {
+          // keep array sorted for efficiency
+          p.splice(d3.bisectLeft(p, v[1]), 0, v[1]);
+          return p;
+        },
+        function (p, v) {
+          p.splice(d3.bisectLeft(p, v[1]), 1);
+          return p;
+        },
+        function () {
+          return [];
+        },
+      ),
+    ];
+  });
+
+  return { dimension, groups };
+}
+
 /// Add '% ' in from of the names of the appropriate series. E.g. 'Sum' becomes '% Sum'
 function addPercentSignsToDisplayNames(series) {
   return series.map(s =>
@@ -254,6 +280,8 @@ export function getDimensionsAndGroupsAndUpdateSeriesDisplayNames(
   const { groups, dimension } =
     chartType === "scatter"
       ? getDimensionsAndGroupsForScatterChart(datas)
+      : chartType === "boxplot"
+      ? getDimensionsAndGroupsForBoxplotChart(datas)
       : isStackedBar
       ? getDimensionsAndGroupsAndUpdateSeriesDisplayNamesForStackedChart(
           props,
@@ -413,6 +441,8 @@ function getDcjsChart(cardType, parent) {
       return dc.barChart(parent);
     case "scatter":
       return dc.bubbleChart(parent);
+    case "boxplot":
+      return dc.boxPlot(parent);
     default:
       return dc.barChart(parent);
   }
@@ -463,6 +493,22 @@ const getBubbleSizeMaxDomain = datas => {
   return d3.max(sizeValues);
 };
 
+function configureBoxplotChart(chart, datas, index, settings) {
+  chart.elasticX(true).elasticY(true);
+
+  if (settings["boxplot.boxwidth"]) {
+    chart.boxWidth(settings["boxplot.boxwidth"]);
+  }
+
+  if (settings["boxplot.showDataPoints"] !== undefined) {
+    chart.renderDataPoints(settings["boxplot.showDataPoints"]);
+  }
+
+  if (settings["boxplot.showOutliers"] !== undefined) {
+    chart.showOutliers(settings["boxplot.showOutliers"]);
+  }
+}
+
 function configureScatterChart(chart, datas, index) {
   chart.keyAccessor(d => d.key[0]).valueAccessor(d => d.key[1]);
 
@@ -497,7 +543,7 @@ function setChartColor({ series, settings, chartType }, chart, groups, index) {
   const color = colorsByKey[key] || "black";
 
   // multiple series
-  if (groups.length > 1 || chartType === "scatter") {
+  if (groups.length > 1 || chartType === "scatter" || chartType === "boxplot") {
     // multiple stacks
     if (group.length > 1) {
       // compute shades of the assigned color
@@ -595,8 +641,13 @@ function getCharts(
       .transitionDuration(0)
       .useRightYAxis(yAxisSplit.length > 1 && yAxisSplit[1].includes(index));
 
+    // TODO: what to do with boxplots here?
     if (chartType === "scatter") {
       configureScatterChart(chart, datas, index, yAxisProps);
+    }
+
+    if (chartType === "boxplot") {
+      configureBoxplotChart(chart, datas, index, settings, yAxisProps);
     }
 
     if (chart.defined) {
@@ -999,3 +1050,5 @@ export const comboRenderer = (element, props) =>
   lineAreaBar(element, { ...props, chartType: "combo" });
 export const scatterRenderer = (element, props) =>
   lineAreaBar(element, { ...props, chartType: "scatter" });
+export const boxplotRenderer = (element, props) =>
+  lineAreaBar(element, { ...props, chartType: "boxplot" });

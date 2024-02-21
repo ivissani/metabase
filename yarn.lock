@@ -2658,6 +2658,11 @@
   dependencies:
     "@babel/runtime" "^7.13.10"
 
+"@ranfdev/deepobj@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@ranfdev/deepobj/-/deepobj-1.0.2.tgz#9dba923578fa24aed3d3961975037b6423a03771"
+  integrity sha512-FM3y6kfJaj5MCoAjdv24EDCTDbuFz+4+pgAunbjYfugwIE4O/xx8mPNji1n/ouG8pHCntSnBr1xwTOensF23Gg==
+
 "@react-oauth/google@^0.11.1":
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/@react-oauth/google/-/google-0.11.1.tgz#f937c8d02bd37e3a6be7713b8212e9b9b9b3f914"
@@ -8724,10 +8729,12 @@ cross-spawn@^7.0.0, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
-crossfilter2@~1.3:
-  version "1.3.14"
-  resolved "https://registry.yarnpkg.com/crossfilter2/-/crossfilter2-1.3.14.tgz#c45bd8d335f6c91accbac26eda203377f195f680"
-  integrity sha1-xFvY0zX2yRrMusJu2iAzd/GV9oA=
+crossfilter2@^1.4.6:
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/crossfilter2/-/crossfilter2-1.5.4.tgz#855a11245d9dc18631cd49d88101dc31a2bcffce"
+  integrity sha512-oOGqOM0RocwQFOXJnEaUKqYV6Mc1TNCRv3LrNUa0QlofQTutGAXyQaLW1aGKLls2sfnbwBEtsa6tPD3jY+ycqQ==
+  dependencies:
+    "@ranfdev/deepobj" "1.0.2"
 
 crossfilter@^1.3.12:
   version "1.3.12"
@@ -9207,12 +9214,12 @@ dayjs@^1.10.4:
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.0.tgz#009bf7ef2e2ea2d5db2e6583d2d39a4b5061e805"
   integrity sha512-JLC809s6Y948/FuCZPm5IX8rRhQwOiyMb2TfVVQEixG7P8Lm/gt5S7yoQZmC8x1UehI9Pb7sksEt4xx14m+7Ug==
 
-dc@2.1.9:
-  version "2.1.9"
-  resolved "https://registry.yarnpkg.com/dc/-/dc-2.1.9.tgz#693621dbbded18c4dac5023d7bd6a0c1215cd99a"
-  integrity sha512-nSkbdSiJrSqgp4thpA57i/JAEqFwYuJkncTjZRjA8NFlEdHTYCod8yh5NaImvw0VizrxPXVTUghqIqtYB12uKg==
+dc@2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/dc/-/dc-2.2.2.tgz#ad672d2ec59aa2cc76184a8e5d4416b0c05267e5"
+  integrity sha512-WWmnxBaGs6PAZM/ebOHHMABbINYpzXIowKjBmoBmNfNGpyU3xSNOSYqZq81CmvYlNhQNbU9iZpWTvpK7HNPgDw==
   dependencies:
-    crossfilter2 "~1.3"
+    crossfilter2 "^1.4.6"
     d3 "^3"
 
 debounce@^1.2.1:

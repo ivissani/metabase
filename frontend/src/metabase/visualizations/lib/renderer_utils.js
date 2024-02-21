@@ -373,7 +373,8 @@ export function shouldSplitYAxis(
   datas,
   yExtents,
 ) {
-  const isSuitableChartType = !isScalarSeries && chartType !== "scatter";
+  const isSuitableChartType =
+    !isScalarSeries && chartType !== "scatter" && chartType !== "boxplot";
   if (!isSuitableChartType) {
     return false;
   }

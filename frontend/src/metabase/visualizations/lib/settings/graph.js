@@ -44,7 +44,10 @@ export function getDefaultDimensionLabel(multipleSeries) {
 }
 
 export function getDefaultColumns(series) {
-  if (series[0].card.display === "scatter") {
+  if (
+    series[0].card.display === "scatter" ||
+    series[0].card.display === "boxplot"
+  ) {
     return getDefaultScatterColumns(series);
   } else {
     return getDefaultLineAreaBarColumns(series);
@@ -96,12 +99,16 @@ export const GRAPH_DATA_SETTINGS = {
   }),
   "graph._dimension_filter": {
     getDefault: ([{ card }]) =>
-      card.display === "scatter" ? isAny : isDimension,
+      card.display === "scatter" || card.display === "boxplot"
+        ? isAny
+        : isDimension,
     useRawSeries: true,
   },
   "graph._metric_filter": {
     getDefault: ([{ card }]) =>
-      card.display === "scatter" ? isNumeric : isMetric,
+      card.display === "scatter" || card.display === "boxplot"
+        ? isNumeric
+        : isMetric,
     useRawSeries: true,
   },
   "graph.dimensions": {
@@ -316,6 +323,39 @@ export const GRAPH_BUBBLE_SETTINGS = {
     writeDependencies: ["graph.dimensions"],
     dashboard: false,
     useRawSeries: true,
+  },
+};
+
+export const GRAPH_BOX_SETTINGS = {
+  "boxplot.boxwidth": {
+    section: t`Display`,
+    title: t`Box width`,
+    widget: "number",
+    default: 10,
+  },
+  "boxplot.showDataPoints": {
+    section: t`Display`,
+    title: t`Show data points`,
+    widget: "radio",
+    props: {
+      options: [
+        { name: t`Yes`, value: true },
+        { name: t`No`, value: false },
+      ],
+    },
+    default: false,
+  },
+  "boxplot.showOutliers": {
+    section: t`Display`,
+    title: t`Show outliers`,
+    widget: "radio",
+    props: {
+      options: [
+        { name: t`Yes`, value: true },
+        { name: t`No`, value: false },
+      ],
+    },
+    default: true,
   },
 };
 

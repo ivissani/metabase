@@ -78,7 +78,8 @@ export function onRenderValueLabels(
   }
 
   function isScatter(display) {
-    return display === "scatter";
+    // TODO: Follow usages of this function and see what needs to be done for boxplots
+    return display === "scatter" || display === "boxplot";
   }
 
   let barWidth;

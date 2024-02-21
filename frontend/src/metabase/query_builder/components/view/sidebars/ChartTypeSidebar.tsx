@@ -39,6 +39,7 @@ const DEFAULT_ORDER = [
   "object",
   "map",
   "scatter",
+  "boxplot",
   "waterfall",
 ];
 
